@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Group Work - Coursework 1</title>
+        <style>
+        </style>
+        <link rel="stylesheet" href="groupwork.css">  
+        <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div id="rcorners2">
+            <main>
+                <figure>
+                    <p>Subject: {{subject.subject}}</p>
+                    <p>Location:{{subject.location}}</p>
+                    <p>Price:£{{subject.price}}</p>
+                    <p>Spaces:{{subject.Spaces}}</p>
+                    <button v-on:click="addToCart">Add to cart
+</button>
+
+                </figure>
+        </div>
+        </div>
+        <script type="text/javascript">
+            var webstore=  new Vue({
+                el: '#app',
+                data:{
+                    subject:{
+                        subject: "Math",
+                        location: "London",
+                        price: 100,
+                        Spaces: 5
+                    },
+                    cart:[]
+                    },
+                    methods: { 
+                        addToCart: function () {
+                            this.cart.push
+                            (this.Spaces.id);
+}
+                    }
+            });
+            </script>
+    </body>
+</html>
