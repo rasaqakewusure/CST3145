@@ -1,0 +1,11 @@
+#rcorners2 {
+    border-radius: 25px;
+    border: 2px solid navy;
+    padding: 20px; 
+    width: 230px;
+    height: 230px;  
+  }
+
+  p{
+    font-family: Arial, Arial, Arial;
+  }
