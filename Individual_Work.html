@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--Title and header-->
+<head>
+    <title>Add lessons - Individual Work</title>
+    <style>
+    </style>
+    <link rel="stylesheet" href="Individual_Work.css">
+    <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+</head>
+<!--Lesson 1  -->
+<div id="app">
+    <div id="rcorners2">
+    <main>
+        
+        <p v-text="subject.subjects"></p>
+        <p v-text="subject.location"></p>
+        <p>Price: £{{subject.price}}</p>
+        <p><b>Spaces:</b><span v-if="subject.spaces - cartItemCount > 0">Only
+            {{subject.spaces - cartItemCount}} left!</span>
+          <span v-else-if="subject.spaces - cartItemCount === 0">All out!</span>
+        </p>
+        <button v-on:click="addToCart"> Add to cart </button>
+        <figure>
+            <img src="mathematics.svg" alt="Math logo" width="40" height="60">
+        </figure>
+    </main>
+    </div>
+</div>
+<!--Lesson 2-->
+<br>
+<div id="app2">
+    <div id="rcorners2">
+    <main>
+        <p v-text="subject2.subjects"></p>
+        <p v-text="subject2.location"></p>
+        <p>Price: £{{subject2.price}}</p>
+        <p><b>Spaces:</b><span v-if="subject2.spaces - cartItemCount > 0">Only
+            {{subject2.spaces - cartItemCount}} left!</span>
+          <span v-else-if="subject2.spaces - cartItemCount === 0">All out!</span>
+        </p>
+        <button v-on:click="addToCart"> Add to cart </button>
+        <figure>
+            <img src="mathematics.svg" alt="Math logo" width="40" height="60">
+        </figure>
+    </main>
+    </div>
+</div>
+
+    <!--Lesons-->
+    <script src= lessons.js type="text/javascript">
+    </script>
+
+
+</body>
+</html>
+
