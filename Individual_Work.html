@@ -2,148 +2,163 @@
 <html lang="en">
 <!--Title and header-->
 <head>
-    <title>Add lessons - Individual Work</title>
+    <title>Lessons - Individual Work</title>
     <style>
     </style>
     <link rel="stylesheet" href="Individual_Work.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-</head>
-<!--Lesson 1  -->
-<div id="app">
-    <div id="rcorners2">
-    <main>
-        <p v-text="subject.subjects"></p>
-        <p v-text="subject.location"></p>
-        <p>Price: £{{subject.price}}</p>
-        <p><b>Spaces:</b><span v-if="subject.spaces - cartItemCount > 0">Only
-            {{subject.spaces - cartItemCount}} spaces left!</span>
-          <span v-else-if="subject.spaces - cartItemCount === 0">No more spaces!</span>
-        </p>
-        <button type="button" v-on:click="addToCart" v-bind:disabled="!canAddClass" class="btn btn-dark btn-sm px-4 mt-3">
-            Add to cart
-          </button>
-        <figure>
-            <img src="mathematics.svg" alt="Math logo" width="40" height="60">
-        </figure>
-    </main>
-    </div>
-</div>
-<!--Lesson 2-->
-<br>
-<div id="app2">
-    <div id="rcorners2">
-    <main>
-        <p v-text="subject2.subjects"></p>
-        <p v-text="subject2.location"></p>
-        <p>Price: £{{subject2.price}}</p>
-        <p><b>Spaces:</b><span v-if="subject2.spaces - cartItemCount > 0">Only
-            {{subject2.spaces - cartItemCount}} spaces left!</span>
-          <span v-else-if="subject2.spaces - cartItemCount === 0">All out!</span>
-        </p>
-        <button type="button" v-on:click="addToCart" v-bind:disabled="!canAddClass" class="btn btn-dark btn-sm px-4 mt-3">
-            Add to cart
-          </button>
-        <figure>
-            <img src="mathematics.svg" alt="Math logo" width="40" height="60">
-        </figure>
-    </main>
-    </div>
-</div>
+    <script src="subjects.js"></script>
+    </head>
+<!--PRODUCT PAGE-->
+    <body>
+        <div id="app">
+            <header>
+                <u><h1 v-text="sitename"></h1></u>
+                <button class="button1" @click="toggleShowProduct">
+                    {{totalItemsInTheCart}}
+                    <span class="fas fa-shopping-cart"></span>
+                    Checkout
+                </button>
+            </header>
 
-<!--Lesson 3 -->
-<br>
-<div id="app3">
-    <div id="rcorners2">
-    <main>
-        <p v-text="subject3.subjects"></p>
-        <p v-text="subject3.location"></p>
-        <p>Price: £{{subject3.price}}</p>
-        <p><b>Spaces:</b><span v-if="subject3.spaces - cartItemCount > 0">Only
-            {{subject3.spaces - cartItemCount}} spaces left!</span>
-          <span v-else-if="subject3.spaces - cartItemCount === 0">All out!</span>
-        </p>
-        <button type="button" v-on:click="addToCart" v-bind:disabled="!canAddClass" class="btn btn-dark btn-sm px-4 mt-3">
-            Add to cart
-          </button>
-        <figure>
-            <img src="pen.png" alt="Pen logo" width="70" height="50">
-        </figure>
-    </main>
+            <div v-if="showProduct">
+                <main>
+                    <div v-for="subject in sortedProducts">
+                        <h2 v-text="subject.subject"></h2>
+
+                        </p><p v-text="subject.location"></p>
+                        <p>Price: £{{subject.price}}</p>
+                        <img v-bind:src="subject.image">
+                        <br>
+                        <br>
+                        <button v-on:click="addItemToCart" v-if="canAddToCart">Add to cart</button>
+                          <button v-bind:disabled="!canAddToCart" v-else>
+                            Add to cart
+                            </button>
+                          <span v-if="itemsLeft(subject)< 5">Only {{itemsLeft(subject)}} left!</span>
+                          <span v-else-if='itemsLeft(subject) ===0'>All out!</span>
+                          <span v-else>Buy now!</span>
+                            <div>
+                                <span v-for="n in subject.rating" id="star">★</span>
+                                <span v-for="n in 5 - subject.rating" id="star">☆</span>
+                            </div>
+                    </div>
+                    </main>
+            </div>
+            <!--CHECKOUT PAGE-->
+            <div v-else>
+                <h1>Welcome to the Checkout Page</h1>
+                <p>
+                    <strong>Name: </strong>
+                    <input type="name" v-model.trim="order.name" required>
+                </p>
+                <p>
+                    <strong>Phone Number: </strong>
+                    <input type="phone" v-model.number="order.phone" required>
+                </p>
+                <p>
+                    <strong>Surname: </strong>
+                    <input type="surname" v-model.trim="order.surname" required>
+                </p>
+                <p>
+                    <strong>Address:  </strong>
+                    <input type="address" v-model.trim="order.address" required>
+                </p>
+                <p>
+                    <strong>City: </strong>
+                    <input type="city" v-model.trim="order.city" required>
+                </p>
+                <p>
+                    <strong>State: </strong>
+                    <select v-model="order.state">
+                        <option disabled value="" >Select State</option>
+                        <option v-for="(state, key) in states" v-bind:value="state">{{key}}</option>
+                    </select>
+                </p>
+                <p>
+                    <strong>Zip/Postal Code:</strong><input type="number" v-model.number="order.zip" required />
+                </p>
+                <p>
+                    <input type="radio" id="home" value="Home" v-model="order.method">
+                    <label for="home">Home</label>
+                    <input type="radio" id="business" value="Business"
+                    v-model="order.method">
+                    <label for="business">Business</label>
+                </p>
+                
+                <h2><u>Order Summary</u></h2>
+                <p><strong>Name:  </strong>{{order.name}}</p>
+                <p><strong>Phone Number:  </strong>{{order.phone}}</p>
+                <p><strong>Surname:  </strong>{{order.surname}}</p>
+                <p><strong>Address:  </strong>{{order.address}}</p>
+                <p><strong>City:  </strong>{{order.city}}</p>
+                <p><strong>State:  </strong>{{order.state}}</p>
+                <p><strong>Zip/Postal Code:  </strong>{{order.zip}}</p>
+                <p><strong>Method:  </strong>{{order.method}}</p>
+
+                <button v-on:click="submitCheckout">Place Order</button>
+        </div>
     </div>
-</div>
+        <script>
+            var webstore = new Vue({
+                el: '#app',
+                data:{
+                    sitename:"Book lessons",
+                    showProduct: true,
+                    subjects : subjects,
+                    cart: [],
+                    order:{
+                        name: "",
+                        phone:"",
+                        surname:"",
+                        address:"",
+                        city: "",
+                        state:"",
+                        zip:"",
+                        method:"Home",
+                    },
+                    states: {
+                        AL: "Alabama",
+                        AR: "Arizona",
+                        CA: "California",
+                        NV: "Nevada"
+                    }
+                },
+                methods:{
+                    addItemToCart : function () {
+                        this.cart.push(this.subjects.id)
+                    },
+                    toggleShowProduct(){
+                        this.showProduct = this.showProduct ? false:  true;
+                    },
+                    canAddToCart(subject){
+                        return this.subjects.availableInventory > this.totalItemsInTheCart;
+                    },
+                    submitCheckout(){
+                        alert("Your order has been submitted :)")
+                    },
+                    itemsLeft(subject){
+                        return subject.availableInventory - this.totalItemsInTheCart;
+                    }
 
-<!--Lesson 4 -->
-<br>
-<div id="app4">
-    <div id="rcorners2">
-    <main>
-        <p v-text="subject4.subjects"></p>
-        <p v-text="subject4.location"></p>
-        <p>Price: £{{subject4.price}}</p>
-        <p><b>Spaces:</b><span v-if="subject4.spaces - cartItemCount > 0">Only
-            {{subject4.spaces - cartItemCount}} spaces left!</span>
-          <span v-else-if="subject4.spaces - cartItemCount === 0">All out!</span>
-        </p>
-        <button type="button" v-on:click="addToCart" v-bind:disabled="!canAddClass" class="btn btn-dark btn-sm px-4 mt-3">
-            Add to cart
-          </button>
-        <figure>
-            <img src="pen.png" alt="Pen logo" width="70" height="50">
-        </figure>
-    </main>
-    </div>
-</div>
+                },
+                computed:  {
+                    totalItemsInTheCart : function  (){
+                        return this.cart.length || "";
+                    },
+                    sortedProducts(){
+                        function compare(a,b){
+                            if (a.price > b.price) return 1;
+                            if (a.price < b.price) return -1;
+                            return -1
+                        }
+                        return this.subjects.sort(compare);
+                    }
+                    
+                }
+            });
 
-<!--Lesson 5 -->
-<br>
-<div id="app5">
-    <div id="rcorners2">
-    <main>
-        <p v-text="subject5.subjects"></p>
-        <p v-text="subject5.location"></p>
-        <p>Price: £{{subject5.price}}</p>
-        <p><b>Spaces:</b><span v-if="subject5.spaces - cartItemCount > 0">Only
-            {{subject5.spaces - cartItemCount}} spaces left!</span>
-          <span v-else-if="subject5.spaces - cartItemCount === 0">All out!</span>
-        </p>
-        <button type="button" v-on:click="addToCart" v-bind:disabled="!canAddClass" class="btn btn-dark btn-sm px-4 mt-3">
-            Add to cart
-          </button>
-        <figure>
-            <img src="music.png" alt="Pen logo" width="70" height="50">
-        </figure>
-    </main>
-    </div>
-</div>
-    <!--Lesons-->
-    <script src= lessons.js type="text/javascript">
-    </script>
-
-<!--Lesson 6 -->
-<br>
-<div id="app6">
-    <div id="rcorners2">
-    <main>
-        <p v-text="subject6.subjects"></p>
-        <p v-text="subject6.location"></p>
-        <p>Price: £{{subject6.price}}</p>
-        <p><b>Spaces:</b><span v-if="subject6.spaces - cartItemCount > 0">Only
-            {{subject6.spaces - cartItemCount}} spaces left!</span>
-          <span v-else-if="subject6.spaces - cartItemCount === 0">All out!</span>
-        </p>
-        <button type="button" v-on:click="addToCart" v-bind:disabled="!canAddClass" class="btn btn-dark btn-sm px-4 mt-3">
-            Add to cart
-          </button>
-        <figure>
-            <img src="music.png" alt="Pen logo" width="70" height="50">
-        </figure>
-    </main>
-    </div>
-</div>
-    <!--Lesons-->
-    <script src= lessons.js type="text/javascript">
-    </script>
-
-</body>
-</html>
-
+        </script>
+    </body>
+    </html>
