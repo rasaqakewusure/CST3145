@@ -32,13 +32,15 @@
                         <img v-bind:src="subject.image">
                         <br>
                         <br>
-                        <button v-on:click="addItemToCart" v-if="canAddToCart">Add to cart</button>
-                          <button v-bind:disabled="!canAddToCart" v-else>
+                        <span v-if="subject.availableInventory === cartCount(subject.id)">All out!</span>
+                        <span v-else-if="subject.availableInventory - cartCount(subject.id) < 5">
+                            Only {{subject.availableInventory - cartCount(subject.id)}} left!
+                        </span>
+                        <span v-else>Buy now!</span>
+                          <button v-on:click="addItemToCart(subject)" v-if="canAddToCart(subject)">Add to cart</button>
+                          <button disabled="disabled" v-else>
                             Add to cart
                             </button>
-                          <span v-if="itemsLeft(subject)< 5">Only {{itemsLeft(subject)}} left!</span>
-                          <span v-else-if='itemsLeft(subject) ===0'>All out!</span>
-                          <span v-else>Buy now!</span>
                             <div>
                                 <span v-for="n in subject.rating" id="star">★</span>
                                 <span v-for="n in 5 - subject.rating" id="star">☆</span>
@@ -48,6 +50,8 @@
             </div>
             <!--CHECKOUT PAGE-->
             <div v-else>
+                <h2><u>Shopping Cart</u></h2>
+
                 <h1>Welcome to the Checkout Page</h1>
                 <p>
                     <strong>Name: </strong>
@@ -126,20 +130,30 @@
                     }
                 },
                 methods:{
-                    addItemToCart : function () {
-                        this.cart.push(this.subjects.id)
+                    addItemToCart : function (subject) {
+                        this.cart.push(subject.id);
                     },
                     toggleShowProduct(){
                         this.showProduct = this.showProduct ? false:  true;
                     },
                     canAddToCart(subject){
-                        return this.subjects.availableInventory > this.totalItemsInTheCart;
+                        return subject.availableInventory > this.cartCount(subject.id);
+                        
                     },
                     submitCheckout(){
                         alert("Your order has been submitted :)")
                     },
+                    cartCount(id) {
+                        let count = 0;
+                        for(let i = 0; i < this.cart.length; i++) {
+                            if (this.cart[i] === id) {
+                                count++;
+                            }
+                        }
+                        return count;
+                    },
                     itemsLeft(subject){
-                        return subject.availableInventory - this.totalItemsInTheCart;
+                        return subject.availableInventory - this.cartCount(subject.id);
                     }
 
                 },
