@@ -20,8 +20,9 @@
                     <span class="fas fa-shopping-cart"></span>
                     Checkout
                 </button>
+                <br>
+                <br>
             </header>
-
             <div v-if="showProduct">
                 <main>
                     <div v-for="subject in sortedProducts">
@@ -51,7 +52,18 @@
             <!--CHECKOUT PAGE-->
             <div v-else>
                 <h2><u>Shopping Cart</u></h2>
-
+                <div v-for="subject in sortedProducts" class="shoppingcart">
+                   <span v-if="cartCount(subject.id) > 0">
+                    <p> Subject: {{subject.subject}}</p>
+                    <p> Location: {{subject.location}}</p>
+                    <p> Price: £ {{subject.price}}</p>
+                    <img v-bind:src="subject.image">
+                    <p> Quantity: {{cartCount(subject.id)}}</p>
+                    <button v-on:click="removeCart(cartCount(subject.id))" class="button2" v-if="cartCount(subject.id) > 0">Empty Cart</button>
+                     </span>
+                 <span v-else></span>
+                 </div>
+        
                 <h1>Welcome to the Checkout Page</h1>
                 <p>
                     <strong>Name: </strong>
@@ -143,6 +155,10 @@
                     submitCheckout(){
                         alert("Your order has been submitted :)")
                     },
+                    removeCart : function (cartCount){
+                        this.cart.splice(cartCount - 1)
+
+                    },
                     cartCount(id) {
                         let count = 0;
                         for(let i = 0; i < this.cart.length; i++) {
@@ -168,9 +184,30 @@
                             return -1
                         }
                         return this.subjects.sort(compare);
+                    },
+                    sortedLocation : function (){
+                    function compare(a, b) {   
+                    if (a.location < b.location)
+                        return -1;
+                    if (a.location > b.location)
+                        return 1;
+                        return 0;
                     }
-                    
+                    return this.subjects.sort(compare);
+                },
+                sortedName : function (){
+                    function compare(a, b) {   
+                    if (a.subject < b.subject)
+                        return -1;
+                    if (a.subject > b.subject)
+                        return 1;
+                        return 0;
+                    }
+                    return this.subjects.sort(compare);
                 }
+
+                }
+                    
             });
 
         </script>
