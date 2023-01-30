@@ -120,7 +120,7 @@
                 <p><strong>Zip/Postal Code:  </strong>{{order.zip}}</p>
                 <p><strong>Method:  </strong>{{order.method}}</p>
 
-                <button v-on:click="submitCheckout">Place Order</button>
+                <button v-on:click="saveProductToDB">Place Order</button>
         </div>
     </div>
         <script>
@@ -182,32 +182,30 @@
                     itemsLeft(subject){
                         return subject.availableInventory - this.cartCount(subject.id);
                     },
+                    //Save order after submitted
                     saveProductToDB(){
-                        const newSubject= {
-                            "id": 1010,
-                            "subject": "Maths",
-                            "location":"London",
-                            "price": 190,
-                            "availableInventory": 5,
-                            "image":"mathematics.svg",
-                            "rating": 4
+                        const newOrder= {
+                           "id": 1004,
+                           "name": surname,
+
                         }
 
                         //set the url to your server and route
+                        //One fetch that saves a new order with POST after it is submitted (1%).
                         //fetch("http://localhost:3000/collections/subjects", {
-                        fetch("http://lessonsapp-env.eba-8pdfpj2u.us-east-1.elasticbeanstalk.com/collections/subjects", {
+                        fetch("http://lessonsapp-env.eba-8pdfpj2u.us-east-1.elasticbeanstalk.com/collections/orders", {
                         method: "POST", //set the HTTP method as "POST"
                         headers: {
                             "Content-Type": "application/json", //set the data type as JSON
                         },
-                        body: JSON.stringify(newSubject) //need to stringigy the JSON
+                        body: JSON.stringify(newOrder) //need to stringigy the JSON
                     }).then(
                         function(response) {
                             response.json().then(
                                 function(json) {
                                     alert("Success: " + json.acknowledged);
                                     console.log("Success: " + json.acknowledged);
-                                    webstore.subjects.push(newSubject);
+                                    webstore.subjects.push(newOrder);
                                 }
                     )}
                     );
