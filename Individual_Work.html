@@ -74,23 +74,23 @@
                 <h1>Welcome to the Checkout Page</h1>
                 <p>
                     <strong>Name: </strong>
-                    <input type="name" v-model.trim="order.name" required>
+                    <input type="name" v-model.trim="order.name" id="name" required>
                 </p>
                 <p>
                     <strong>Phone Number: </strong>
-                    <input type="phone" v-model.number="order.phone" required>
+                    <input type="phone" v-model.number="order.phone" id="phone" required>
                 </p>
                 <p>
                     <strong>Surname: </strong>
-                    <input type="surname" v-model.trim="order.surname" required>
+                    <input type="surname" v-model.trim="order.surname" id = "surname" required>
                 </p>
                 <p>
                     <strong>Address:  </strong>
-                    <input type="address" v-model.trim="order.address" required>
+                    <input type="address" v-model.trim="order.address" id="address" required>
                 </p>
                 <p>
                     <strong>City: </strong>
-                    <input type="city" v-model.trim="order.city" required>
+                    <input type="city" v-model.trim="order.city" id="city" required>
                 </p>
                 <p>
                     <strong>State: </strong>
@@ -182,14 +182,19 @@
                     itemsLeft(subject){
                         return subject.availableInventory - this.cartCount(subject.id);
                     },
+
                     //Save order after submitted
                     saveProductToDB(){
                         const newOrder= {
-                           "id": 1004,
-                           "name": surname,
-
+                            name: "",
+                            phone:"",
+                            surname:"",
+                            address:"",
+                            city: "",
+                            state:"",
+                            zip:"",
+                            method:"Home",
                         }
-
                         //set the url to your server and route
                         //One fetch that saves a new order with POST after it is submitted (1%).
                         //fetch("http://localhost:3000/collections/subjects", {
@@ -198,14 +203,14 @@
                         headers: {
                             "Content-Type": "application/json", //set the data type as JSON
                         },
-                        body: JSON.stringify(newOrder) //need to stringigy the JSON
+                        body: JSON.stringify(newOrder) //need to stringify the JSON
                     }).then(
                         function(response) {
                             response.json().then(
                                 function(json) {
                                     alert("Success: " + json.acknowledged);
                                     console.log("Success: " + json.acknowledged);
-                                    webstore.subjects.push(newOrder);
+                                    webstore.subjects.push();
                                 }
                     )}
                     );
