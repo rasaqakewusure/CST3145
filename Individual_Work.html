@@ -214,7 +214,7 @@
                         var spaces = this.cartCount(element._id);
                         if (spaces > 0) {
 
-                            var orderData = { space: spaces, lessonId: element._id, name: this.order.name, phoneNumber: this.order.phone };
+                            var orderData = { space: spaces, lessonId: element._id, name: this.order.name, surname: this.order.surname, address: this.order.address, city: this.order.city, state: this.order.state, zip: this.order.zip, method: this.order.method, phoneNumber: this.order.phone };
                             orders.push(orderData);
 
                             //set the url to your server and route
