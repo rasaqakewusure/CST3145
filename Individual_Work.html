@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <link rel="manifest" href="subjectapp.webmanifest">
-    <!--script src="subjects.js"></script-->
+    <script src="subjects.js"></script>
 </head>
 <!--PRODUCT PAGE-->
 
@@ -161,17 +161,17 @@
                 //GET all lessons
 
                 //fetch("http://localhost:3000/collections/products").then(
-                fetch("https://lessonsapp-env.eba-8pdfpj2u.us-east-1.elasticbeanstalk.com/collections/subjects").then(
-                    function (response) {
-                        response.json().then(
-                            function (json) {
+                //fetch("https://lessonsapp-env.eba-8pdfpj2u.us-east-1.elasticbeanstalk.com/collections/subjects").then(
+                    //function (response) {
+                        //response.json().then(
+                            //function (json) {
                                 //alert(json);
                                 //console.log(json);
-                                webstore.subjects = json;
-                            }
-                        )
-                    }
-                );
+                                //webstore.subjects = json;
+                            //}
+                        //)
+                    //}
+                //);
                 if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("serviceworker.js");
 }
