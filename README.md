@@ -6,4 +6,4 @@ Coursework
 GitHub URL: https://github.com/rasaqakewusure/rasaqakewusure.github.io
 
 
-GitHub pages: http://rasaqakewusure.github.io/Individual_Work.html
+GitHub pages: https://rasaqakewusure.github.io/Individual_Work.html
