@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <link rel="manifest" href="subjectapp.webmanifest">
-    <script src="subjects.js"></script>
+    <!--script src="subjects.js"></script-->
 </head>
 <!--PRODUCT PAGE-->
 
@@ -26,6 +26,24 @@
                 <span class="fas fa-shopping-cart"></span>
                 Checkout
             </button>
+            <!--Test HTTPS-->
+            <strong class="test-elem">HTTPS Test: </strong>
+            <a v-bind:href="serverURL" target="_blank">link</a>
+            <!--Delete all caches -->
+            <button @click="deleteAllCaches" class="test-elem">
+                <span class="fas fa-trash"></span>
+                Delete All Caches
+                </button>
+            <!--Unregister Service Workers-->
+            <button @click="unregisterAllServiceWorkers" class="test-elem">
+                <span class="fab fa-uniregistry"></span>
+                Unregister All ServiceWorkers
+                </button>
+            <!--Reload page-->
+            <button @click="reloadPage" class="test-elem">
+                <span class="fas fa-sync"></span>
+                Reload Page
+                </button>
             <button @click="saveProductToDB">
                 <span class="fas fa-save"></span>
                 Test save a product to DB
@@ -136,9 +154,10 @@
             data: {
                 sitename: "Book lessons",
                 showProduct: true,
-                subjects: subjects, //subjects,
+                subjects: [], //subjects,
                 sortValue: 'subject',
                 cart: [],
+                serverURL: "https://lessonsapp-env.eba-8pdfpj2u.us-east-1.elasticbeanstalk.com/collections/subjects",
                 order: {
                     name: "",
                     phone: "",
@@ -161,17 +180,17 @@
                 //GET all lessons
 
                 //fetch("http://localhost:3000/collections/products").then(
-                //fetch("https://lessonsapp-env.eba-8pdfpj2u.us-east-1.elasticbeanstalk.com/collections/subjects").then(
-                    //function (response) {
-                        //response.json().then(
-                            //function (json) {
-                                //alert(json);
-                                //console.log(json);
-                                //webstore.subjects = json;
-                            //}
-                        //)
-                    //}
-                //);
+                fetch("https://lessonsapp-env.eba-8pdfpj2u.us-east-1.elasticbeanstalk.com/collections/subjects").then(
+                    function (response) {
+                        response.json().then(
+                            function (json) {
+                                alert(json);
+                                console.log(json);
+                                webstore.subjects = json;
+                            }
+                        )
+                    }
+                );
                 if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("serviceworker.js");
 }
@@ -210,7 +229,27 @@
                 itemsLeft(subject) {
                     return subject.availableInventory - this.cartCount(subject._id);
                 },
-
+                //Delete all caches
+                deleteAllCaches() {
+                    caches.keys().then(function(names) {
+                        for (let name of names)
+                        caches.delete(name);
+                    });
+                    console.log("All Caches Deleted");
+                },
+                //Unregister Service Workers
+                unregisterAllServiceWorkers() {
+                navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                    for (let registration of registrations) {
+                        registration.unregister()
+                    }
+                });
+                console.log("ServiceWorkers Unregistered");
+            },
+            //Reload page
+            reloadPage() {
+                window.location.reload();
+            },
                 //Save order after submitted
                 saveProductToDB() {
                     var orders = [];
